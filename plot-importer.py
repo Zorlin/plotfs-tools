@@ -3,6 +3,7 @@
 # Intended for importing plots into PlotFS.
 from os import listdir,getcwd,chdir
 from os.path import isfile, join
+import subprocess
 
 # Get a list of all files
 directory = getcwd()
@@ -39,6 +40,10 @@ chdir(directory)
 # Main loop
 plots_done = 0
 for plot in plots_list:
-    print("sudo plotfs --add_plot " + plot)
-    plots_done += 1
+    plot_import = subprocess.run("sudo plotfs --add_plot " + plot, shell=True)
+    if plot_import.returncode == 0:
+        print("Plot " + plot + " imported successfully.")
+        plots_done += 1
+    else:
+        print("Failed while importing plot " + plot)
     print("Plots imported: " + str(plots_done) + "/" + str(plot_count))
