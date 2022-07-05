@@ -26,7 +26,6 @@ else:
 # Count the number of plot files in this directory
 plot_count = sum('.plot' in string for string in files_list)
 print("Found " + str(plot_count) + " plots in " + directory)
-print(files_list)
 
 # Create a new list containing only plot files
 plots_list = []
