@@ -4,9 +4,30 @@
 from os import listdir,getcwd,chdir
 from os.path import isfile, join
 import subprocess
+import fcntl
+import os
+import sys
 
 # Delete on import
 delete_on_import = False
+
+def instance_already_running(label="default"):
+    lock_file_pointer = os.open(f"/tmp/instance_{label}.lock", os.O_WRONLY)
+
+    try:
+        fcntl.lockf(lock_file_pointer, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        already_running = False
+    except IOError:
+        already_running = True
+
+    return already_running
+
+# Check if we are already running
+if (instance_already_running):
+    print("We are already running!")
+    sys.exit("Already running")
+else:
+    print("DEBUG: We are not already running")
 
 # Get a list of all files
 directory = getcwd()
