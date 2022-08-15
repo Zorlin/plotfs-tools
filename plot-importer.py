@@ -4,10 +4,14 @@
 from os import listdir,getcwd,chdir
 from os.path import isfile, join
 from tendo import singleton
+import sys
 import subprocess
 
+# Some settings which may be useful for continuous plotters.
 # Delete on import
 delete_on_import = False
+# Exit if directory empty
+exit_on_empty = False
 
 me = singleton.SingleInstance()
 
@@ -19,6 +23,8 @@ files_list = [f for f in sorted(listdir(directory)) if isfile(join(directory, f)
 plots_in_dir = any(".plot" in string for string in files_list)
 # If not, ask for a directory.
 if(plots_in_dir == False):
+    if exit_on_empty:
+        sys.exit("No plotfiles found and you said to exit when this is the case. Exiting...")
     plots_provided = False
     while plots_provided == False:
         print("No plots found in " + directory)
