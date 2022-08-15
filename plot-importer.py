@@ -6,7 +6,7 @@ from os.path import isfile, join
 import subprocess
 
 # Delete on import
-delete_on_import = false
+delete_on_import = False
 
 # Get a list of all files
 directory = getcwd()
