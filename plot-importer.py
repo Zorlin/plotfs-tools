@@ -5,6 +5,9 @@ from os import listdir,getcwd,chdir
 from os.path import isfile, join
 import subprocess
 
+# Delete on import
+delete_on_import = false
+
 # Get a list of all files
 directory = getcwd()
 files_list = [f for f in sorted(listdir(directory)) if isfile(join(directory, f))]
@@ -39,7 +42,10 @@ chdir(directory)
 # Main loop
 plots_done = 0
 for plot in plots_list:
-    plot_import = subprocess.run("sudo plotfs --add_plot " + plot, shell=True)
+    if not delete_on_import:
+        plot_import = subprocess.run("sudo plotfs --add_plot " + plot, shell=True)
+    else:
+        plot_import = subprocess.run("sudo plotfs --remove_source --add_plot " + plot, shell=True)
     if plot_import.returncode == 0:
         print("Plot " + plot + " imported successfully.")
         plots_done += 1
